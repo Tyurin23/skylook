@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ISO8601}{UTC} [%t] %highlight{%-5level} %logger{36} - %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingFile" fileName="logs/application.log" filePattern="logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz" immediateFlush="false">
+            <PatternLayout pattern="%d{ISO8601}{UTC} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="180"/>
+        </RollingRandomAccessFile>
+        <Async name="Async">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <AsyncRoot level="warn">
+            <AppenderRef ref="Async"/>
+        </AsyncRoot>
+        <AsyncLogger name="com.github.tyurin23.skylook" level="info" />
+    </Loggers>
+</Configuration>
